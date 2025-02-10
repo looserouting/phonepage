@@ -6,9 +6,12 @@ const aor         = "sip:alice@pbx.positron-it.de";
 const destination = 'sip:bob@pbx.positron-it.de';
 const authorizationUsername = "alice";
 const authorizationPassword = "12345";
-
+/*
 const remoteVideoElement = document.getElementById('remoteVideo') as HTMLVideoElement;
-const localVideoElement = (document.getElementById('localVideo') as HTMLVideoElement);
+const localVideoElement = document.getElementById('localVideo') as HTMLVideoElement;
+*/
+const remoteAudioElement = document.getElementById('remoteAudio') as HTMLAudioElement;
+
 const options: Web.SimpleUserOptions = {
   aor,
   userAgentOptions : {
@@ -16,12 +19,14 @@ const options: Web.SimpleUserOptions = {
     authorizationPassword
   },
   media: {
-    local: {
-      video: localVideoElement
-    },
+/*    local: {
+      video: localVideoElement 
+    },*/
     remote: {
-      video: remoteVideoElement,
-      audio: remoteVideoElement    }
+/*     video: remoteVideoElement,
+      audio: remoteVideoElement */
+      audio: remoteAudioElement
+    }
   }
 };
 

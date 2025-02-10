@@ -15,21 +15,6 @@
         height: 100vh;
         margin: 0;
       }
-      #remoteVideo {
-        position: relative;
-        height: 320px;
-        width: 640px;
-        border: solid;
-        margin-bottom: 20px;
-      }
-      #localVideo {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        height: 90px;
-        width: 160px;
-        border: solid;
-      }
       #title {
         margin-bottom: 20px;
         font-size: 24px;
@@ -42,9 +27,7 @@
   </head>
   <body>
     <div id="title">Support Hotline</div>
-    <div id="remoteVideo">
-      <div id="localVideo"></div>
-    </div>
+    <audio id="remoteAudio"></audio>
     <button id="callButton">Anrufen</button>
     <script type="module" src="/src/main.ts"></script>
   </body>
