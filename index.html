@@ -23,12 +23,39 @@
       #callButton {
         margin-top: 20px;
       }
+      .volume-control {
+        margin-top: 10px;
+      }
+      .volume-indicator {
+        width: 100px;
+        height: 10px;
+        background-color: lightgray;
+        margin-top: 5px;
+      }
+      .volume-level {
+        height: 100%;
+        background-color: green;
+      }
     </style>
   </head>
   <body>
     <div id="title">Support Hotline</div>
     <audio id="remoteAudio"></audio>
     <button id="callButton">Anrufen</button>
+    <div class="volume-control">
+      <label for="speakerVolume">Lautsprecher Lautstärke:</label>
+      <input type="range" id="speakerVolume" min="0" max="100" value="50">
+      <div class="volume-indicator" id="speakerVolumeIndicator">
+        <div class="volume-level" style="width: 50%;"></div>
+      </div>
+    </div>
+    <div class="volume-control">
+      <label for="microphoneVolume">Mikrofon Lautstärke:</label>
+      <input type="range" id="microphoneVolume" min="0" max="100" value="50">
+      <div class="volume-indicator" id="microphoneVolumeIndicator">
+        <div class="volume-level" style="width: 50%;"></div>
+      </div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
