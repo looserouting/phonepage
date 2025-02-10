@@ -44,24 +44,6 @@ callButton.addEventListener('click', () => {
   }
 });
 
-// Volume control logic
-const speakerVolumeControl = document.getElementById('speakerVolume') as HTMLInputElement;
-const microphoneVolumeControl = document.getElementById('microphoneVolume') as HTMLInputElement;
-const speakerVolumeIndicator = document.getElementById('speakerVolumeIndicator') as HTMLElement;
-const microphoneVolumeIndicator = document.getElementById('microphoneVolumeIndicator') as HTMLElement;
-
-speakerVolumeControl.addEventListener('input', () => {
-  const volume = parseInt(speakerVolumeControl.value) / 100;
-  remoteAudioElement.volume = volume;
-  speakerVolumeIndicator.querySelector('.volume-level').style.width = `${volume * 100}%`;
-});
-
-microphoneVolumeControl.addEventListener('input', () => {
-  const volume = parseInt(microphoneVolumeControl.value) / 100;
-  // Assuming there's a way to set microphone volume in your setup
-  microphoneVolumeIndicator.querySelector('.volume-level').style.width = `${volume * 100}%`;
-});
-
 // Listen for call end events to reset button state
 simpleUser.delegate = {
   onCallHangup: () => {
