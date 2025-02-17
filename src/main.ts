@@ -8,12 +8,22 @@ const authorizationUsername = "alice";
 const authorizationPassword = "12345";
 
 const remoteVideoElement = document.getElementById('remoteVideo') as HTMLVideoElement;
-const localVideoElement = (document.getElementById('localVideo') as HTMLVideoElement);
+const localVideoElement = document.getElementById('localVideo') as HTMLVideoElement;
 const options: Web.SimpleUserOptions = {
   aor,
   userAgentOptions : {
     authorizationUsername,
-    authorizationPassword
+    authorizationPassword,
+/*    sessionDescriptionHandlerFactoryOptions: {
+      peerConnectionConfiguration: {
+        iceServers: [
+          {
+            urls: 'turn:pbx.positron-it.de:3478',
+          }
+        ]
+      }
+    }
+*/
   },
   media: {
     local: {
