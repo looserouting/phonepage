@@ -9,6 +9,11 @@ const authorizationPassword = "12345";
 
 const remoteVideoElement = document.getElementById('remoteVideo') as HTMLVideoElement;
 const localVideoElement = document.getElementById('localVideo') as HTMLVideoElement;
+
+if (!remoteVideoElement || !localVideoElement) {
+  throw new Error("Video elements not found");
+}
+
 const options: Web.SimpleUserOptions = {
   aor,
   userAgentOptions : {
@@ -31,7 +36,8 @@ const options: Web.SimpleUserOptions = {
     },
     remote: {
       video: remoteVideoElement,
-      audio: remoteVideoElement    }
+      audio: remoteVideoElement
+    }
   }
 };
 
