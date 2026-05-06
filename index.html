@@ -5,8 +5,20 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <title>Support Hotline</title>
     <style>
+      :root {
+        --primary: #4f46e5;
+        --primary-hover: #4338ca;
+        --danger: #ef4444;
+        --danger-hover: #dc2626;
+        --bg: #0f172a;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --text: #f8fafc;
+      }
       body {
         display: flex;
         flex-direction: column;
@@ -14,34 +26,92 @@
         justify-content: center;
         height: 100vh;
         margin: 0;
-        font-family: sans-serif;
+        font-family: 'Inter', sans-serif;
+        background: radial-gradient(circle at top left, #1e1b4b, #0f172a);
+        color: var(--text);
+      }
+      .glass-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: fit-content;
       }
       #videoContainer {
-        margin-bottom: 20px;
+        position: relative;
+        width: 640px;
+        height: 360px;
+        background: #000;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 24px;
+      }
+      #remoteVideo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      #localVideo {
+        position: absolute;
+        bottom: 16px;
+        right: 16px;
+        width: 160px;
+        height: 90px;
+        border-radius: 12px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        object-fit: cover;
+        background: #111;
       }
       #title {
-        margin-bottom: 20px;
-        font-size: 24px;
-        font-weight: bold;
+        margin-bottom: 24px;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        background: linear-gradient(to right, #818cf8, #c084fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
       #callButton {
-        padding: 10px 20px;
-        font-size: 16px;
+        padding: 12px 32px;
+        font-size: 18px;
+        font-weight: 600;
         cursor: pointer;
+        border: none;
+        border-radius: 12px;
+        transition: all 0.2s ease;
+        background: var(--primary);
+        color: white;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       }
-      .volume-control {
-        margin-top: 10px;
+      #callButton:hover {
+        background: var(--primary-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+      }
+      #callButton.active {
+        background: var(--danger);
+      }
+      #callButton.active:hover {
+        background: var(--danger-hover);
       }
     </style>
   </head>
   <body>
-    <div id="title">Support Hotline</div>
-    <div id="videoContainer" style="position: relative; width: 640px; height: 320px;">
-      <video id="remoteVideo" autoplay playsinline style="width: 100%; height: 100%; border: solid;"></video>
-      <video id="localVideo" autoplay playsinline muted style="position: absolute; bottom: 0; right: 0; width: 160px; height: 90px; border: solid;"></video>
+    <div class="glass-card">
+      <div id="title">Support Hotline</div>
+      <div id="videoContainer">
+        <video id="remoteVideo" autoplay playsinline></video>
+        <video id="localVideo" autoplay playsinline muted></video>
+      </div>
+      <audio id="remoteAudio"></audio>
+      <button id="callButton">Anrufen</button>
     </div>
-    <audio id="remoteAudio"></audio>
-    <button id="callButton">Anrufen</button>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

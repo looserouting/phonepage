@@ -32,7 +32,7 @@ const options: Web.SimpleUserOptions = {
   media: {
     remote: {
       video: remoteVideoElement,
-      audio: remoteVideoElement
+      audio: remoteAudioElement
     },
     local: {
       video: localVideoElement
@@ -46,21 +46,38 @@ let simpleUser = new Web.SimpleUser(server, options);
 const callButton = document.getElementById('callButton') as HTMLButtonElement;
 let isCalling = false;
 
-callButton.addEventListener('click', () => {
-  callButton.textContent="Auflegen";
+callButton.addEventListener('click', async () => {
   if (!isCalling) {
-    simpleUser.connect().then(() => {
-      return simpleUser.call(destination);
-    }).then(() => {
+    try {
+      callButton.disabled = true;
+      callButton.textContent = "Verbinde...";
+      
+      await simpleUser.connect();
+      await simpleUser.call(destination);
+      
       isCalling = true;
-    });
+      callButton.textContent = "Auflegen";
+      callButton.classList.add('active');
+    } catch (error) {
+      console.error('Failed to initiate call:', error);
+      callButton.textContent = "Fehler";
+      setTimeout(() => {
+        callButton.textContent = "Anrufen";
+        isCalling = false;
+        callButton.disabled = false;
+      }, 3000);
+    } finally {
+      if (isCalling) callButton.disabled = false;
+    }
   } else {
-    simpleUser.hangup().then(() => {
+    try {
+      await simpleUser.hangup();
       isCalling = false;
       callButton.textContent = 'Anrufen';
-    }).catch(error => {
+      callButton.classList.remove('active');
+    } catch (error) {
       console.error('Failed to hang up:', error);
-    });
+    }
   }
 });
 
@@ -69,6 +86,8 @@ simpleUser.delegate = {
   onCallHangup: () => {
     isCalling = false;
     callButton.textContent = 'Anrufen';
+    callButton.classList.remove('active');
+    callButton.disabled = false;
   },
   onCallAnswered: () => {
     console.log('Call answered');
