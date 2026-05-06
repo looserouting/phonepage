@@ -1,12 +1,11 @@
 import { Web } from "sip.js";
 
-
-const server      = "wss://pbx.positron-it.de:8089/ws";
-const aor         = "sip:alice@pbx.positron-it.de";
+const server = "wss://pbx.positron-it.de:8089/ws";
+const aor = "sip:alice@pbx.positron-it.de";
 const destination = 'sip:bob@pbx.positron-it.de';
 const authorizationUsername = "alice";
 const authorizationPassword = "12345";
-
+const remoteAudioElement = document.getElementById('remoteAudio') as HTMLAudioElement;
 const remoteVideoElement = document.getElementById('remoteVideo') as HTMLVideoElement;
 const localVideoElement = document.getElementById('localVideo') as HTMLVideoElement;
 
@@ -16,7 +15,7 @@ if (!remoteVideoElement || !localVideoElement) {
 
 const options: Web.SimpleUserOptions = {
   aor,
-  userAgentOptions : {
+  userAgentOptions: {
     authorizationUsername,
     authorizationPassword,
 /*    sessionDescriptionHandlerFactoryOptions: {
@@ -31,12 +30,12 @@ const options: Web.SimpleUserOptions = {
 */
   },
   media: {
-    local: {
-      video: localVideoElement
-    },
     remote: {
       video: remoteVideoElement,
       audio: remoteVideoElement
+    },
+    local: {
+      video: localVideoElement
     }
   }
 };
@@ -48,23 +47,36 @@ const callButton = document.getElementById('callButton') as HTMLButtonElement;
 let isCalling = false;
 
 callButton.addEventListener('click', () => {
+  callButton.textContent="Auflegen";
   if (!isCalling) {
-    simpleUser.connect().then( ()=> {
+    simpleUser.connect().then(() => {
       return simpleUser.call(destination);
-    }).then( ()=> {
+    }).then(() => {
       isCalling = true;
-      callButton.textContent = "Auflegen";
-    }).catch(error => {
-      console.error('Failed to initiate call:', error);
     });
-  }else {
-    isCalling = false;
-    callButton.textContent = 'Anrufen';
-    simpleUser.hangup().then( ()=> {
+  } else {
+    simpleUser.hangup().then(() => {
+      isCalling = false;
+      callButton.textContent = 'Anrufen';
     }).catch(error => {
       console.error('Failed to hang up:', error);
     });
   }
 });
 
-
+// Listen for call end events to reset button state
+simpleUser.delegate = {
+  onCallHangup: () => {
+    isCalling = false;
+    callButton.textContent = 'Anrufen';
+  },
+  onCallAnswered: () => {
+    console.log('Call answered');
+  },
+  onCallCreated: () => {
+    console.log('Call created');
+  },
+  onCallReceived: () => {
+    console.log('Call received');
+  }
+};
